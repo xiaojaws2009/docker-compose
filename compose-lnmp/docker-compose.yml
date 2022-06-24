@@ -1,13 +1,19 @@
 version: '3'
 services:
-  mysql: #项目名称
-    image: mysql:5.7 #镜像名称，如果是通过dockerfile创建的可以使用build属性
-    container_name: mysql  #容器名称，如果没有这个属性的话，docker-compose会随机分配一个名字给容器
-    privileged: true    #允许操作的表示，如果不加的话会出现类似，permission deny的错误
+  nginx:
+    image: openresty/openresty:alpine
+    container_name: nginx
+    privileged: true
+    links:
+      - php71
     ports:
-      - 3307:3306  #开放宿主机和容器的映射端口
-    environment:
-      MYSQL_ROOT_PASSWORD: 123456  #mysql镜像中的环境变量
+      - 8080:80
+    volumes:
+      - ./openresty/nginx/conf.d/vhost:/etc/nginx/conf.d/vhost/
+      - ./openresty/nginx/conf.d/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+      - ./openresty/nginx/logs:/usr/local/openresty/nginx/logs/
+      - /Users/xiaojuezhi/www:/usr/share/nginx/html
+
   php71:
     image: php:7.1-fpm
     container_name: php71
@@ -37,22 +43,16 @@ services:
     volumes:
       - /Users/xiaojuezhi/www:/usr/share/nginx/html
       #- /Users/xiaojuezhi/www:/var/www/html
-    entrypoint: /usr/share/nginx/html/server.sh
+    #entrypoint: /usr/share/nginx/html/server.sh
 
-  nginx:
-    image: openresty/openresty:alpine
-    container_name: nginx
-    privileged: true
-    links:
-      - php71
+  mysql: #项目名称
+    image: mysql:5.7 #镜像名称，如果是通过dockerfile创建的可以使用build属性
+    container_name: mysql  #容器名称，如果没有这个属性的话，docker-compose会随机分配一个名字给容器
+    privileged: true    #允许操作的表示，如果不加的话会出现类似，permission deny的错误
     ports:
-      - 8080:80
-    volumes:
-      - ./openresty/nginx/conf.d/vhost:/etc/nginx/conf.d/vhost/
-      - ./openresty/nginx/conf.d/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
-      - ./openresty/nginx/logs:/usr/local/openresty/nginx/logs/
-      - /Users/xiaojuezhi/www:/usr/share/nginx/html
-
+      - 3307:3306  #开放宿主机和容器的映射端口
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456  #mysql镜像中的环境变量
   redis:
     image: redis:7.0.2
     restart: always
@@ -66,6 +66,4 @@ services:
     container_name: mongo
     ports:
       - 27017:27017
-
-
 

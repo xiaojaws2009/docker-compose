@@ -13,11 +13,11 @@ COPY ./demo ./
 
 # 编译二进制文件
 RUN go mod download && \
-	go build -o demo ./main.go
+	go build -o main ./main.go
 
 # 声明服务端口
 EXPOSE 9601
 
 # 启动容器时运行的命令
-RUN chmod +x demo
-ENTRYPOINT ["./demo"]
+RUN chmod +x /usr/share/nginx/go/demo/main
+ENTRYPOINT ["./main"]

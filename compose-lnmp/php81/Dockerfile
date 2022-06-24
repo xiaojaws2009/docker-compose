@@ -18,8 +18,11 @@ RUN apk update && apk add --no-cache \
     && pecl install redis-stable \
     && docker-php-ext-enable redis
 
+# 声明服务端口
+EXPOSE 9501
+
 COPY --chown=root:root ./www /usr/share/nginx/html/
 WORKDIR /usr/share/nginx/html
-RUN chmod +x server.sh
+RUN chmod +x /usr/share/nginx/html/server.sh
 
-ENTRYPOINT [ "/bin/sh", "-c", "./server.sh" ]
+#ENTRYPOINT [ "/bin/sh", "-c", "./server.sh" ]

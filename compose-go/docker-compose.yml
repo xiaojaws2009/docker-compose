@@ -1,0 +1,18 @@
+version: '3'
+services:
+  go_demo:
+    hostname: go_demo
+    restart: always
+    container_name: go_demo
+    image: 114.116.102.175:6080/library/go_demo:v1.0
+    #build:
+    #  context: ./
+    #  dockerfile: Dockerfile
+    environment:
+      DISABLE_DEFAULT_SERVER: 1
+    privileged: true
+    ports:
+      - "9601:9601"
+    volumes:
+      - /Users/xiaojuezhi/go:/usr/share/nginx/go
+    entrypoint: /usr/share/nginx/go/demo/demo

@@ -1,0 +1,15 @@
+version: '3'
+services:
+  centos7:
+    image: centos:centos7
+    container_name: centos7
+    privileged: true
+    restart: always
+    ports:
+      - 8081:80
+    volumes:
+      - ./openresty/nginx/conf.d/vhost:/etc/nginx/conf.d/vhost/
+      - ./openresty/nginx/conf.d/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+      - ./openresty/nginx/logs:/usr/local/openresty/nginx/logs/
+      - /Users/xiaojuezhi/www:/usr/share/nginx/html
+      - /Users/xiaojuezhi/go:/usr/share/nginx/go

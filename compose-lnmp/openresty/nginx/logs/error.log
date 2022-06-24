@@ -1,0 +1,10 @@
+2022/06/22 03:33:12 [emerg] 1#1: "worker_processes" directive is not allowed here in /etc/nginx/conf.d/nginx.conf:2
+2022/06/22 03:35:53 [emerg] 1#1: "worker_processes" directive is not allowed here in /etc/nginx/conf.d/nginx.conf:2
+2022/06/22 03:35:54 [emerg] 1#1: "worker_processes" directive is not allowed here in /etc/nginx/conf.d/nginx.conf:2
+2022/06/22 03:41:18 [emerg] 1#1: "pid" directive is not allowed here in /etc/nginx/conf.d/nginx.conf:5
+2022/06/22 03:42:17 [emerg] 1#1: "events" directive is not allowed here in /etc/nginx/conf.d/nginx.conf:7
+2022/06/22 03:43:21 [emerg] 1#1: "pcre_jit" directive is not allowed here in /etc/nginx/conf.d/nginx.conf:5
+2022/06/22 03:48:12 [error] 7#7: *1 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.18.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", upstream: "fastcgi://172.18.0.6:9000", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/06/23 09:10:25 [emerg] 1#1: host not found in upstream "php71" in /etc/nginx/conf.d/vhost/default.conf:18
+2022/06/23 09:59:00 [emerg] 1#1: host not found in upstream "php71" in /etc/nginx/conf.d/vhost/default.conf:18
+2022/06/24 03:12:12 [alert] 1#1: unlink() "/usr/local/openresty/nginx/logs/nginx.pid" failed (2: No such file or directory)

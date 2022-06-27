@@ -1,9 +1,9 @@
 # docker-compos项目环境安装
 
 ##
-compose-lnmp：安装lnmp环境（openresty+php71+php_swoole81+redis7+mongo）
-compose-go：golang环境(go1.18)
-compose-centos：centos7.6系统
+compose-lnmp：安装lnmp环境（openresty+php71+php_swoole81+redis7+mongo）\
+compose-go：golang环境(go1.18) \
+compose-centos：centos7.6系统 \
 
 ```
 1、登录harbor：

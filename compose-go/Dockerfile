@@ -1,4 +1,5 @@
 FROM golang:1.18-alpine
+MAINTAINER xiaojuezhi <"372019924@qq.com">
 
 # 环境
 ENV GO111MODULE=on \
@@ -8,8 +9,8 @@ ENV GO111MODULE=on \
     GOPROXY="https://goproxy.cn,direct"
 
 # 代码目录
-WORKDIR /usr/share/nginx/go/demo
-COPY ./demo ./
+COPY ./demo /usr/share/go/demo
+WORKDIR /usr/share/go/demo
 
 # 编译二进制文件
 RUN go mod download && \
@@ -19,5 +20,5 @@ RUN go mod download && \
 EXPOSE 9601
 
 # 启动容器时运行的命令
-RUN chmod +x /usr/share/nginx/go/demo/main
+RUN chmod +x /usr/share/go/demo/main
 ENTRYPOINT ["./main"]

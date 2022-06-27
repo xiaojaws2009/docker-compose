@@ -6,8 +6,12 @@ services:
     privileged: true
     links:
       - php71
+      - php_swoole
     ports:
-      - 8080:80
+      - "8080:80"
+      - "443:443"
+    restart: always
+    command: nginx -g 'daemon off;'
     volumes:
       - ./openresty/nginx/conf.d/vhost:/etc/nginx/conf.d/vhost/
       - ./openresty/nginx/conf.d/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
@@ -19,10 +23,12 @@ services:
     container_name: php71
     privileged: true
     ports:
-      - "9000:9000"
+      - "9000"
     links:
       - mysql  #容器之间进行关联
     volumes:
+      - ./php71/php.ini:/usr/local/etc/php/php.ini:ro # 当前php配置文件；可以拷贝修改php-dev.ini为想要的配置
+      - ./php71/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro
       - ./php71/ext:/usr/src/php/ext
       - /Users/xiaojuezhi/www:/usr/share/nginx/html  #挂载卷，需要注意的是，php在以模块的形式加载到nginx的时候，需要他们两个的目录结构一致，否则nginx无法加载php,但是 html等静态问价可以正常访问。
   php_swoole:
@@ -39,11 +45,9 @@ services:
     ports:
       - "9501:9501"
     links:
-      - mysql:mysql
+      - mysql
     volumes:
       - /Users/xiaojuezhi/www:/usr/share/nginx/html
-      #- /Users/xiaojuezhi/www:/var/www/html
-    #entrypoint: /usr/share/nginx/html/server.sh
 
   mysql: #项目名称
     image: mysql:5.7 #镜像名称，如果是通过dockerfile创建的可以使用build属性
@@ -51,8 +55,13 @@ services:
     privileged: true    #允许操作的表示，如果不加的话会出现类似，permission deny的错误
     ports:
       - 3307:3306  #开放宿主机和容器的映射端口
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 123456  #mysql镜像中的环境变量
+    volumes:
+      - ./mysql/data:/var/lib/mysql:rw
+      - ./mysql/logs:/var/lib/mysql-logs:rw
+      - ./mysql/conf.d:/etc/mysql/conf.d:ro
   redis:
     image: redis:7.0.2
     restart: always

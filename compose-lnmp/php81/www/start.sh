@@ -1,3 +1,3 @@
-#!/usr/bin
+#!/bin/sh
 
 php ./server.php

@@ -13,7 +13,7 @@ services:
     restart: always
     command: nginx -g 'daemon off;'
     volumes:
-      - ./openresty/nginx/conf.d/vhost:/etc/nginx/conf.d/vhost/
+      - ./openresty/nginx/conf.d:/etc/nginx/conf.d/
       - ./openresty/nginx/conf.d/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
       - ./openresty/nginx/logs:/usr/local/openresty/nginx/logs/
       - /Users/xiaojuezhi/www:/usr/share/nginx/html
@@ -23,13 +23,14 @@ services:
     container_name: php71
     privileged: true
     ports:
-      - "9000"
+      - "9000:9000"
     links:
       - mysql  #容器之间进行关联
     volumes:
       - ./php71/php.ini:/usr/local/etc/php/php.ini:ro # 当前php配置文件；可以拷贝修改php-dev.ini为想要的配置
       - ./php71/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro
-      - ./php71/ext:/usr/src/php/ext
+      - ./php71/ext/conf.d:/usr/local/etc/php/conf.d
+      - ./php71:/usr/src/php
       - /Users/xiaojuezhi/www:/usr/share/nginx/html  #挂载卷，需要注意的是，php在以模块的形式加载到nginx的时候，需要他们两个的目录结构一致，否则nginx无法加载php,但是 html等静态问价可以正常访问。
   php_swoole:
     hostname: php_swoole

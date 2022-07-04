@@ -70,10 +70,10 @@ services:
     privileged: true
     ports:
       - 6379:6379
-  mongo:
-    image: mongo
-    restart: always
-    container_name: mongo
-    ports:
-      - 27017:27017
+  #mongo:
+  #  image: mongo
+  #  restart: always
+  #  container_name: mongo
+  #  ports:
+  #    - 27017:27017
 

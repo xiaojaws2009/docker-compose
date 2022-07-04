@@ -17,6 +17,7 @@ services:
       - ./openresty/nginx/conf.d/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
       - ./openresty/nginx/logs:/usr/local/openresty/nginx/logs/
       - /alidata/wwwroot:/usr/share/nginx/html
+      - /alidata/webroot:/usr/share/nginx/web
 
   php71:
     image: php:7.1-fpm

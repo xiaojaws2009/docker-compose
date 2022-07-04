@@ -8,7 +8,7 @@ services:
       - php71
       - php_swoole
     ports:
-      - "8080:80"
+      - "80:80"
       - "443:443"
     restart: always
     command: nginx -g 'daemon off;'
@@ -16,14 +16,14 @@ services:
       - ./openresty/nginx/conf.d:/etc/nginx/conf.d/
       - ./openresty/nginx/conf.d/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
       - ./openresty/nginx/logs:/usr/local/openresty/nginx/logs/
-      - /Users/xiaojuezhi/www:/usr/share/nginx/html
+      - /alidata/wwwroot:/usr/share/nginx/html
 
   php71:
     image: php:7.1-fpm
     container_name: php71
     privileged: true
     ports:
-      - "9000:9000"
+      - "9000"
     links:
       - mysql  #容器之间进行关联
     volumes:
@@ -31,7 +31,7 @@ services:
       - ./php71/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro
       - ./php71/ext/conf.d:/usr/local/etc/php/conf.d
       - ./php71:/usr/src/php
-      - /Users/xiaojuezhi/www:/usr/share/nginx/html  #挂载卷，需要注意的是，php在以模块的形式加载到nginx的时候，需要他们两个的目录结构一致，否则nginx无法加载php,但是 html等静态问价可以正常访问。
+      - /alidata/wwwroot:/usr/share/nginx/html  #挂载卷，需要注意的是，php在以模块的形式加载到nginx的时候，需要他们两个的目录结构一致，否则nginx无法加载php,但是 html等静态问价可以正常访问。
   php_swoole:
     hostname: php_swoole
     restart: always
@@ -48,7 +48,7 @@ services:
     links:
       - mysql
     volumes:
-      - /Users/xiaojuezhi/www:/usr/share/nginx/html
+      - /alidata/wwwroot:/usr/share/nginx/html
 
   mysql: #项目名称
     image: mysql:5.7 #镜像名称，如果是通过dockerfile创建的可以使用build属性

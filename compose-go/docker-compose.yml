@@ -14,4 +14,4 @@ services:
     ports:
       - "9601:9601"
     volumes:
-      - /Users/xiaojuezhi/go:/usr/share/nginx/go
+      - /alidata/goroot:/usr/share/nginx/go

@@ -1,4 +1,5 @@
 version: '3'
+
 services:
   nginx:
     image: openresty/openresty:alpine
@@ -8,7 +9,7 @@ services:
       - php71
       - php_swoole
     ports:
-      - "80:80"
+      - "8088:80"
       - "443:443"
     restart: always
     command: nginx -g 'daemon off;'
@@ -16,8 +17,8 @@ services:
       - ./openresty/nginx/conf.d:/etc/nginx/conf.d/
       - ./openresty/nginx/conf.d/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
       - ./openresty/nginx/logs:/usr/local/openresty/nginx/logs/
-      - /alidata/wwwroot:/usr/share/nginx/html
-      - /alidata/webroot:/usr/share/nginx/web
+      - /Users/xiaojuezhi/www:/usr/share/nginx/html
+      - /Users/xiaojuezhi/web:/usr/share/nginx/web
 
   php71:
     image: php:7.1-fpm
@@ -32,7 +33,7 @@ services:
       - ./php71/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro
       - ./php71/ext/conf.d:/usr/local/etc/php/conf.d
       - ./php71:/usr/src/php
-      - /alidata/wwwroot:/usr/share/nginx/html  #挂载卷，需要注意的是，php在以模块的形式加载到nginx的时候，需要他们两个的目录结构一致，否则nginx无法加载php,但是 html等静态问价可以正常访问。
+      - /Users/xiaojuezhi/www:/usr/share/nginx/html  #挂载卷，需要注意的是，php在以模块的形式加载到nginx的时候，需要他们两个的目录结构一致，否则nginx无法加载php,但是 html等静态问价可以正常访问。
   php_swoole:
     hostname: php_swoole
     restart: always
@@ -49,7 +50,7 @@ services:
     links:
       - mysql
     volumes:
-      - /alidata/wwwroot:/usr/share/nginx/html
+      - /Users/xiaojuezhi/www:/usr/share/nginx/html
 
   mysql: #项目名称
     image: mysql:5.7 #镜像名称，如果是通过dockerfile创建的可以使用build属性
@@ -59,22 +60,33 @@ services:
       - 3307:3306  #开放宿主机和容器的映射端口
     restart: always
     environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_USER: root
       MYSQL_ROOT_PASSWORD: 123456  #mysql镜像中的环境变量
+    networks:
+      - sharefly
     volumes:
       - ./mysql/data:/var/lib/mysql:rw
       - ./mysql/logs:/var/lib/mysql-logs:rw
       - ./mysql/conf.d:/etc/mysql/conf.d:ro
   redis:
-    image: redis:7.0.2
+    image: redis:7.0.2-alpine
     restart: always
     container_name: redis
     privileged: true
     ports:
       - 6379:6379
-  #mongo:
-  #  image: mongo
-  #  restart: always
-  #  container_name: mongo
-  #  ports:
-  #    - 27017:27017
+    networks:
+      - sharefly
+  mongo:
+    image: mongo
+    restart: always
+    container_name: mongo
+    ports:
+      - 27017:27017
+    networks:
+      - sharefly
 
+networks:
+  sharefly:
+    driver: bridge

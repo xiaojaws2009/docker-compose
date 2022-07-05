@@ -9,16 +9,15 @@ ENV GO111MODULE=on \
     GOPROXY="https://goproxy.cn,direct"
 
 # 代码目录
-COPY ./demo /usr/share/nginx/go/demo
-WORKDIR /usr/share/nginx/go/demo
+COPY ./kefu_server /usr/share/nginx/go/kefu_server
+WORKDIR /usr/share/nginx/go/kefu_server
 
 # 编译二进制文件
-RUN go mod download && \
-	go build -o main ./main.go
+RUN go build -o bin/kefu_server ./cmd/main.go
 
 # 声明服务端口
-EXPOSE 9601
+EXPOSE 8089
 
 # 启动容器时运行的命令
-RUN chmod +x /usr/share/nginx/go/demo/main
-ENTRYPOINT ["./main"]
+RUN chmod +x /usr/share/nginx/go/kefu_server/bin/kefu_server
+ENTRYPOINT ["./bin/kefu_server"]

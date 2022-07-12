@@ -31,9 +31,10 @@ services:
     ports:
       - "8089:8089"
     networks:
+      - default
       - compose-lnmp_sharefly # 指定网络
-    volumes:
-      - /Users/xiaojuezhi/go:/usr/share/nginx/go
+    #volumes:
+      #- /Users/xiaojuezhi/go:/usr/share/nginx/go
 
 networks:
   compose-lnmp_sharefly:

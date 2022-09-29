@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  nginx_mall:
+    image: openresty/openresty:alpine
+    container_name: nginx_mall
+    privileged: true
+    ports:
+      - "8090:80"
+    restart: always
+    command: nginx -g 'daemon off;'
+    volumes:
+      - ./openresty/nginx/conf.d:/etc/nginx/conf.d/
+      - ./openresty/nginx/conf.d/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+      - ./openresty/nginx/logs:/usr/local/openresty/nginx/logs/
+
+  laravel_mall:
+    hostname: laravel_mall
+    restart: always
+    container_name: laravel_mall
+    #image: 114.116.102.175:6080/library/laravel_mall:v1.0
+    build:
+      context: ./laravel_mall
+      dockerfile: Dockerfile
+    environment:
+      DISABLE_DEFAULT_SERVER: 1
+    privileged: true
+    ports:
+      - "9502:9502"
+    networks:
+      - default
+      - compose-lnmp_sharefly # 指定网络
+    volumes:
+      - /Users/xiaojuezhi/www/laravel-mall:/usr/share/nginx/html/laravel-mall
+
+networks:
+  compose-lnmp_sharefly:
+    external: true # 来自外部

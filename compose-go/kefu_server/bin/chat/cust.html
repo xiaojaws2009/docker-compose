@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Customer</title>
+<script src="js/public.js"></script>
+<script src="js/store.min.js"></script>
+<script src="js/jquery.min.js"></script>
+
+<script type="text/javascript">
+window.onload = function () {
+    var userId = 1; // 测试云帐号ID
+    var seatId = getQueryVariable("seatId");
+    if(seatId == "" || seatId == undefined) {
+        seatId = 1
+    }
+
+    var uuid = store.get("uuid")
+    if(uuid == "" || uuid == undefined) {
+        uuid = generateUUID()
+        store.set("uuid", uuid)
+    }
+
+    console.log(uuid)
+
+    var conn;
+    var msg = document.getElementById("msg");
+    var log = document.getElementById("log");
+
+    function appendLog(item) {
+        var doScroll = log.scrollTop > log.scrollHeight - log.clientHeight - 1;
+        log.appendChild(item);
+        if (doScroll) {
+            log.scrollTop = log.scrollHeight - log.clientHeight;
+        }
+    }
+
+    document.getElementById("form").onsubmit = function () {
+        if (!conn) {
+            return false;
+        }
+        if (!msg.value) {
+            return false;
+        }
+
+        //mesasge = uuid + "{KF}" + msg.value
+
+        var res = {"event":"message", "uuid":uuid, "seat_id":parseInt(seatId), "data":{"type":"text", "content":msg.value}}
+        mesasge = JSON.stringify(res)
+
+        console.log("发送");
+        console.log(mesasge)
+
+        conn.send(mesasge);
+        msg.value = "";
+        return false;
+    };
+
+    if (window["WebSocket"]) {
+        wsAddr = "ws://" + document.location.host + "/cust?seatId=" + seatId + "&uuid=" + uuid
+        console.log(wsAddr)
+        conn = new WebSocket(wsAddr, "token");
+        conn.onclose = function (evt) {
+            var item = document.createElement("div");
+            item.innerHTML = "<b>Connection closed.</b>";
+            appendLog(item);
+        };
+        conn.onmessage = function (evt) {
+            console.log("收到");
+            console.log(evt.data)
+
+            var res = $.parseJSON(evt.data)
+            item = document.createElement("div");
+            item.innerText = res.data.content
+            appendLog(item);
+        };
+    } else {
+        var item = document.createElement("div");
+        item.innerHTML = "<b>Your browser does not support WebSockets.</b>";
+        appendLog(item);
+    }
+
+    RGetSeatList();
+    // 刷新客服数
+    setInterval(function () {
+        RGetSeatList();
+    }, 5000)
+
+    function RGetSeatList() {
+        $.ajax({ url: "/api/seat/getSeatList?userId=" + userId,
+            dataType: "json",
+            success: function(res){
+                if(res.data.list.length > 0) {
+                    var str = ""
+                    $.each(res.data.list, function (index, value) {
+                        //console.log("=============" + value.seat_id.toString())
+                        if(str == "") {
+                            str += '<a href="?uuid=' + uuid + '&seatId=' + value.id + '">' + value.nickname + '</a>';
+                        } else {
+                            str += "," +'<a href="?uuid=' + uuid + '&seatId=' + value.id + '">' + value.nickname + '</a>';
+                        }
+                    });
+                    $("#seatListBox").html(str);
+                }
+            }});
+    }
+};
+</script>
+<style type="text/css">
+html {
+    overflow: hidden;
+}
+
+body {
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: gray;
+}
+
+#log {
+    background: white;
+    margin-top: 2em;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    position: absolute;
+    top: 0.5em;
+    left: 0.5em;
+    right: 0.5em;
+    bottom: 3em;
+    overflow: auto;
+}
+
+.seat {
+    margin: 0;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    position: absolute;
+    top: 0em;
+    left: 0.5em;
+    right: 0.5em;
+    bottom: 3em;
+    overflow: auto;
+    color: white;
+}
+
+#form {
+    padding: 0 0.5em 0 0.5em;
+    margin: 0;
+    position: absolute;
+    bottom: 1em;
+    left: 0px;
+    width: 100%;
+    overflow: hidden;
+}
+
+</style>
+</head>
+<body>
+<table>
+    <tr>
+        <td class="seat">当前在线客服：<span id="seatListBox">加载中...</span></td>
+    </tr>
+</table>
+<div id="log"></div>
+<form id="form">
+    <input type="submit" value="Send" />
+    <input type="text" id="msg" size="64"/>
+</form>
+</body>
+</html>

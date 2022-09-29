@@ -1,4 +1,4 @@
-# docker-compos项目环境安装
+# docker-compose项目环境安装
 
 ##
 compose-lnmp：安装lnmp环境（openresty+php71+php_swoole81+redis7+mongo）\

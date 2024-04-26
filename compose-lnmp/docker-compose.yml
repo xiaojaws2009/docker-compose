@@ -7,7 +7,7 @@ services:
     privileged: true
     links:
       - php71
-      - php_swoole
+      #- php_swoole
     ports:
       - "8088:80"
       - "443:443"
@@ -19,7 +19,6 @@ services:
       - ./openresty/nginx/logs:/usr/local/openresty/nginx/logs/
       - /Users/xiaojuezhi/www:/usr/share/nginx/html
       - /Users/xiaojuezhi/web:/usr/share/nginx/web
-
   php71:
     image: php:7.1-fpm
     container_name: php71
@@ -35,23 +34,23 @@ services:
       - ./php71/ext/extensions:/usr/local/lib/php/ext/extensions
       - ./php71:/usr/src/php
       - /Users/xiaojuezhi/www:/usr/share/nginx/html  #挂载卷，需要注意的是，php在以模块的形式加载到nginx的时候，需要他们两个的目录结构一致，否则nginx无法加载php,但是 html等静态问价可以正常访问。
-  php_swoole:
-    hostname: php_swoole
-    restart: always
-    container_name: php_swoole
-    image: 114.116.102.175:6080/library/php_swoole:v1.0
-    #build:
-    #  context: ./php81
-    #  dockerfile: Dockerfile
-    environment:
-      DISABLE_DEFAULT_SERVER: 1
-    privileged: true
-    ports:
-      - "9501:9501"
-    links:
-      - mysql
-    volumes:
-      - /Users/xiaojuezhi/www:/usr/share/nginx/html
+  # php_swoole:
+  #   hostname: php_swoole
+  #   restart: always
+  #   container_name: php_swoole
+  #   image: 114.116.102.175:6080/library/php_swoole:v1.0
+  #   #build:
+  #   #  context: ./php81
+  #   #  dockerfile: Dockerfile
+  #   environment:
+  #     DISABLE_DEFAULT_SERVER: 1
+  #   privileged: true
+  #   ports:
+  #     - "9501:9501"
+  #   links:
+  #     - mysql
+  #   volumes:
+  #     - /Users/xiaojuezhi/www:/usr/share/nginx/html
 
   mysql: #项目名称
     image: mysql:5.7 #镜像名称，如果是通过dockerfile创建的可以使用build属性
@@ -81,15 +80,15 @@ services:
     networks:
       - default
       - sharefly
-  mongo:
-    image: mongo
-    restart: always
-    container_name: mongo
-    ports:
-      - 27017:27017
-    networks:
-      - default
-      - sharefly
+  # mongo:
+  #   image: mongo
+  #   restart: always
+  #   container_name: mongo
+  #   ports:
+  #     - 27017:27017
+  #   networks:
+  #     - default
+  #     - sharefly
 
 # 构建网络
 networks:

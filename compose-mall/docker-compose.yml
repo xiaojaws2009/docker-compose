@@ -13,6 +13,7 @@ services:
       - ./openresty/nginx/conf.d:/etc/nginx/conf.d/
       - ./openresty/nginx/conf.d/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
       - ./openresty/nginx/logs:/usr/local/openresty/nginx/logs/
+      - /Users/xiaojuezhi/www/laravel-mall:/usr/share/nginx/html/laravel-mall
 
   laravel_mall:
     hostname: laravel_mall

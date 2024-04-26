@@ -1,0 +1,40 @@
+2022/10/28 01:01:36 [emerg] 1#1: host not found in upstream "php71" in /etc/nginx/conf.d/vhost/default.conf:18
+2022/10/28 01:01:37 [emerg] 1#1: host not found in upstream "php71" in /etc/nginx/conf.d/vhost/default.conf:18
+2022/10/28 01:01:38 [emerg] 1#1: host not found in upstream "php71" in /etc/nginx/conf.d/vhost/default.conf:18
+2022/10/28 01:01:39 [emerg] 1#1: host not found in upstream "php71" in /etc/nginx/conf.d/vhost/default.conf:18
+2022/10/28 01:01:41 [emerg] 1#1: host not found in upstream "php71" in /etc/nginx/conf.d/vhost/default.conf:18
+2022/10/28 01:01:43 [emerg] 1#1: host not found in upstream "php71" in /etc/nginx/conf.d/vhost/default.conf:18
+2022/10/28 01:01:48 [emerg] 1#1: host not found in upstream "php71" in /etc/nginx/conf.d/vhost/default.conf:18
+2022/10/28 01:01:55 [emerg] 1#1: host not found in upstream "php71" in /etc/nginx/conf.d/vhost/default.conf:18
+2022/10/28 01:02:08 [emerg] 1#1: host not found in upstream "php71" in /etc/nginx/conf.d/vhost/default.conf:18
+2022/10/28 01:02:34 [emerg] 1#1: host not found in upstream "php71" in /etc/nginx/conf.d/vhost/default.conf:18
+2024/04/26 06:54:55 [emerg] 1#1: host not found in upstream "php71" in /etc/nginx/conf.d/vhost/default.conf:18
+2024/04/26 06:55:00 [emerg] 1#1: host not found in upstream "php71" in /etc/nginx/conf.d/vhost/default.conf:18
+2024/04/26 06:55:02 [emerg] 1#1: host not found in upstream "php71" in /etc/nginx/conf.d/vhost/default.conf:18
+2024/04/26 06:55:04 [emerg] 1#1: host not found in upstream "php71" in /etc/nginx/conf.d/vhost/default.conf:18
+2024/04/26 06:55:07 [emerg] 1#1: host not found in upstream "php71" in /etc/nginx/conf.d/vhost/default.conf:18
+2024/04/26 06:55:09 [emerg] 1#1: host not found in upstream "php71" in /etc/nginx/conf.d/vhost/default.conf:18
+2024/04/26 06:55:14 [emerg] 1#1: host not found in upstream "php71" in /etc/nginx/conf.d/vhost/default.conf:18
+2024/04/26 06:55:21 [emerg] 1#1: host not found in upstream "php71" in /etc/nginx/conf.d/vhost/default.conf:18
+2024/04/26 06:55:35 [emerg] 1#1: host not found in upstream "php71" in /etc/nginx/conf.d/vhost/default.conf:18
+2024/04/26 06:56:01 [emerg] 1#1: host not found in upstream "php71" in /etc/nginx/conf.d/vhost/default.conf:18
+2024/04/26 06:56:52 [emerg] 1#1: host not found in upstream "php71" in /etc/nginx/conf.d/vhost/default.conf:18
+2024/04/26 07:12:34 [error] 7#7: *1 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.18.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", upstream: "fastcgi://172.18.0.5:9000", host: "localhost:8088", referrer: "http://localhost:8088/"
+2024/04/26 08:30:49 [error] 7#7: *5 FastCGI sent in stderr: "PHP message: PHP Warning:  fopen(/usr/share/nginx/html/spadmin/app/cache/logs/crash_20240426.log): failed to open stream: No such file or directory in /usr/share/nginx/html/spadmin/public/index.php on line 69
+PHP message: PHP Fatal error:  Uncaught Phalcon\Logger\Exception: Can't open log file at '/usr/share/nginx/html/spadmin/app/cache/logs/crash_20240426.log' in /usr/share/nginx/html/spadmin/public/index.php:69
+Stack trace:
+#0 /usr/share/nginx/html/spadmin/public/index.php(69): Phalcon\Logger\Adapter\File->__construct('/usr/share/ngin...')
+#1 {main}
+  thrown in /usr/share/nginx/html/spadmin/public/index.php on line 69" while reading response header from upstream, client: 172.21.0.1, server: spadmin.local.docker.com, request: "GET / HTTP/1.1", upstream: "fastcgi://172.21.0.4:9000", host: "spadmin.local.docker.com:8088"
+2024/04/26 08:38:07 [error] 7#7: *8 FastCGI sent in stderr: "PHP message: PHP Warning:  fopen(/usr/share/nginx/html/spadmin/app/cache/logs/crash_20240426.log): failed to open stream: No such file or directory in /usr/share/nginx/html/spadmin/public/index.php on line 69
+PHP message: PHP Fatal error:  Uncaught Phalcon\Logger\Exception: Can't open log file at '/usr/share/nginx/html/spadmin/app/cache/logs/crash_20240426.log' in /usr/share/nginx/html/spadmin/public/index.php:69
+Stack trace:
+#0 /usr/share/nginx/html/spadmin/public/index.php(69): Phalcon\Logger\Adapter\File->__construct('/usr/share/ngin...')
+#1 {main}
+  thrown in /usr/share/nginx/html/spadmin/public/index.php on line 69" while reading response header from upstream, client: 172.21.0.1, server: spadmin.local.docker.com, request: "GET / HTTP/1.1", upstream: "fastcgi://172.21.0.4:9000", host: "spadmin.local.docker.com:8088"
+2024/04/26 08:39:05 [error] 7#7: *8 FastCGI sent in stderr: "PHP message: PHP Warning:  fopen(/usr/share/nginx/html/spadmin/app/cache/logs/crash_20240426.log): failed to open stream: No such file or directory in /usr/share/nginx/html/spadmin/public/index.php on line 69
+PHP message: PHP Fatal error:  Uncaught Phalcon\Logger\Exception: Can't open log file at '/usr/share/nginx/html/spadmin/app/cache/logs/crash_20240426.log' in /usr/share/nginx/html/spadmin/public/index.php:69
+Stack trace:
+#0 /usr/share/nginx/html/spadmin/public/index.php(69): Phalcon\Logger\Adapter\File->__construct('/usr/share/ngin...')
+#1 {main}
+  thrown in /usr/share/nginx/html/spadmin/public/index.php on line 69" while reading response header from upstream, client: 172.21.0.1, server: spadmin.local.docker.com, request: "GET / HTTP/1.1", upstream: "fastcgi://172.21.0.4:9000", host: "spadmin.local.docker.com:8088"

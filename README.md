@@ -1,11 +1,14 @@
 # docker-compose项目环境安装
 
 ##
-compose-lnmp：安装lnmp环境（openresty+php71+php_swoole81+redis7+mongo）\
-compose-go：golang环境(go1.18) \
-compose-centos：centos7.6系统
+compose-lnmp：安装lnmp环境（openresty+php71+php81_swoole+redis7+mongo+rabbitmq）\
+compose-go：golang框架demo(版本1.18) \
+compose-centos：centos7.6系统 \
+compose-service：服务注册发现+kafka消息队列
+compose-swoole：swoole框架demo
 
 ```
+### 推送远程镜像仓库
 1、登录harbor：
 docker login -u xiaojuezhi -p Aimei4620 http://114.116.102.175:6080
 2、编译镜像

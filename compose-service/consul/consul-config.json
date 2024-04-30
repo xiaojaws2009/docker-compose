@@ -1,0 +1,10 @@
+{
+    "datacenter": "dc1",
+    "data_dir": "/opt/consul/data/",
+    "log_file": "/opt/consul/log/",
+    "log_level": "INFO",
+    "server": true,
+    "bootstrap_expect": 1,
+    "ui": true,
+    "bind_addr": "0.0.0.0"
+}

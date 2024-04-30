@@ -14,28 +14,14 @@ services:
     privileged: true
     ports:
       - "9601:9601"
+    networks:
+      - compose-lnmp_network # 指定网络
+      - compose-service_network # 指定网络
     volumes:
       - /Users/xiaojuezhi/go:/usr/share/nginx/go
 
-  kefu_server:
-    hostname: kefu_server
-    restart: always
-    container_name: kefu_server
-    #image: 114.116.102.175:6080/library/kefu_server:v1.0
-    build:
-      context: ./
-      dockerfile: Df_kefu_server
-    environment:
-      DISABLE_DEFAULT_SERVER: 1
-    privileged: true
-    ports:
-      - "8089:8089"
-    networks:
-      - default
-      - compose-lnmp_sharefly # 指定网络
-    #volumes:
-      #- /Users/xiaojuezhi/go:/usr/share/nginx/go
-
 networks:
-  compose-lnmp_sharefly:
+  compose-lnmp_network:
+    external: true # 来自外部
+  compose-service_network:
     external: true # 来自外部

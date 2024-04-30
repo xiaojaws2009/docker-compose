@@ -1,0 +1,83 @@
+version: '3'
+
+services:
+  consul:
+    hostname: consul
+    restart: always
+    container_name: consul
+    build:
+      context: ./consul
+      dockerfile: Dockerfile
+    environment:
+      DISABLE_DEFAULT_SERVER: 1
+    privileged: true
+    ports:
+      - "8300"
+      - "8400"
+      - "8500:8500"
+    volumes:
+      - ./consul/data:/consul/data
+      - ./consul/log:/opt/consul/log
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    hostname: zookeeper
+    restart: always
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    networks:
+      - default
+      - network
+  kafka:
+    image: wurstmeister/kafka
+    hostname: kafka
+    restart: always
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      - KAFKA_ADVERTISED_HOST_NAME=kafka
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_CREATE_TOPICS=test:1:1
+    depends_on:
+      - zookeeper
+    networks:
+      - default
+      - network
+  kafka-manager:
+    image: sheepkiller/kafka-manager
+    hostname: kafka-manager
+    restart: always
+    container_name: kafka-manager
+    ports:
+      - "19092:9000"
+    environment:
+      - ZK_HOSTS=zookeeper:2181
+    depends_on:
+      - kafka
+      - zookeeper
+    networks:
+      - default
+      - network
+  # redpanda:
+  #   image: vectorized/redpanda:latest
+  #   hostname: redpanda
+  #   restart: always
+  #   container_name: redpanda
+  #   links:
+  #     - zookeeper  #容器之间进行关联
+  #     - kafka
+  #   ports:
+  #     - "29092:29092"
+  #   command: "start --zookeeper localhost:2181 --broker-id 0 --listen 0.0.0.0:29092"
+  #   networks:
+  #     - default
+  #     - network
+
+networks:
+  network:
+    driver: bridge
+    

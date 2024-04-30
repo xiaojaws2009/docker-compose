@@ -7,7 +7,7 @@ services:
     privileged: true
     links:
       - php71
-      #- php_swoole
+      #- php81_swoole
     ports:
       - "8088:80"
       - "443:443"
@@ -26,7 +26,8 @@ services:
     ports:
       - "9000"
     links:
-      - mysql  #容器之间进行关联
+      - mysql
+      - redis
     volumes:
       - ./php71/php.ini:/usr/local/etc/php/php.ini:ro # 当前php配置文件；可以拷贝修改php-dev.ini为想要的配置
       - ./php71/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro
@@ -34,11 +35,11 @@ services:
       - ./php71/ext/extensions:/usr/local/lib/php/ext/extensions
       - ./php71:/usr/src/php
       - /Users/xiaojuezhi/www:/usr/share/nginx/html  #挂载卷，需要注意的是，php在以模块的形式加载到nginx的时候，需要他们两个的目录结构一致，否则nginx无法加载php,但是 html等静态问价可以正常访问。
-  # php_swoole:
-  #   hostname: php_swoole
+  # php81_swoole:
+  #   hostname: php81_swoole
   #   restart: always
-  #   container_name: php_swoole
-  #   image: 114.116.102.175:6080/library/php_swoole:v1.0
+  #   container_name: php81_swoole
+  #   image: 114.116.102.175:6080/library/php81_swoole:v1.0
   #   #build:
   #   #  context: ./php81
   #   #  dockerfile: Dockerfile
@@ -49,6 +50,7 @@ services:
   #     - "9501:9501"
   #   links:
   #     - mysql
+  #     - redis
   #   volumes:
   #     - /Users/xiaojuezhi/www:/usr/share/nginx/html
 
@@ -65,7 +67,7 @@ services:
       MYSQL_ROOT_PASSWORD: 123456  #mysql镜像中的环境变量
     networks:
       - default
-      - sharefly
+      - network
     volumes:
       - ./mysql/data:/var/lib/mysql:rw
       - ./mysql/logs:/var/lib/mysql-logs:rw
@@ -79,7 +81,7 @@ services:
       - 6379:6379
     networks:
       - default
-      - sharefly
+      - network
   # mongo:
   #   image: mongo
   #   restart: always
@@ -88,9 +90,26 @@ services:
   #     - 27017:27017
   #   networks:
   #     - default
-  #     - sharefly
+  #     - network
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: 123456
+    privileged: true
+    ports:
+      - 15672:15672
+      - 5672:5672
+    networks:
+      - default
+      - network
+    volumes:
+      - "./rabbitmq/data:/var/lib/rabbitmq"  # 持久化RabbitMQ数据
+      - "./rabbitmq/log:/var/log/rabbitmq/log"
 
 # 构建网络
 networks:
-  sharefly:
+  network:
     driver: bridge

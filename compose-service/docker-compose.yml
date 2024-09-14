@@ -15,6 +15,7 @@ services:
       - "8300"
       - "8400"
       - "8500:8500"
+      - "8520:8520"
     volumes:
       - ./consul/data:/consul/data
       - ./consul/log:/opt/consul/log
@@ -49,33 +50,10 @@ services:
       - network
   kafka-manager:
     image: sheepkiller/kafka-manager
-    hostname: kafka-manager
-    restart: always
-    container_name: kafka-manager
     ports:
-      - "19092:9000"
+      - "9000:9000"
     environment:
-      - ZK_HOSTS=zookeeper:2181
-    depends_on:
-      - kafka
-      - zookeeper
-    networks:
-      - default
-      - network
-  # redpanda:
-  #   image: vectorized/redpanda:latest
-  #   hostname: redpanda
-  #   restart: always
-  #   container_name: redpanda
-  #   links:
-  #     - zookeeper  #容器之间进行关联
-  #     - kafka
-  #   ports:
-  #     - "29092:29092"
-  #   command: "start --zookeeper localhost:2181 --broker-id 0 --listen 0.0.0.0:29092"
-  #   networks:
-  #     - default
-  #     - network
+      ZK_HOSTS: zookeeper:2181
 
 networks:
   network:

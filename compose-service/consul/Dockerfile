@@ -21,6 +21,7 @@ RUN mkdir -p /consul/config && \
 
 # 复制配置文件
 COPY ./consul-config.json /consul/config/consul-config.json
+COPY ./consul-kv.json /consul/data/consul-kv.json
 
 # 启动Consul agent,（参数"config-dir=/consul/config"无效？）
 CMD ["agent", "-dev", "-client", "0.0.0.0"]

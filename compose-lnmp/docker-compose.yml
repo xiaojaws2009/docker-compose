@@ -7,6 +7,7 @@ services:
     privileged: true
     links:
       - php71
+      - php74
       #- php81_swoole
     ports:
       - "8088:80"
@@ -35,6 +36,21 @@ services:
       - ./php71/ext/extensions:/usr/local/lib/php/ext/extensions
       - ./php71:/usr/src/php
       - /Users/xiaojuezhi/www:/usr/share/nginx/html  #挂载卷，需要注意的是，php在以模块的形式加载到nginx的时候，需要他们两个的目录结构一致，否则nginx无法加载php,但是 html等静态问价可以正常访问。
+  php74:
+    image: php:7.4.33-fpm
+    container_name: php74
+    privileged: true
+    ports:
+      - "9000"
+    links:
+      - mysql
+      - redis
+    volumes:
+      - ./php74/php.ini:/usr/local/etc/php/php.ini:ro
+      - ./php74/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro
+      - ./php74/ext/conf.d:/usr/local/etc/php/conf.d
+      - ./php74/ext/extensions:/usr/local/lib/php/ext/extensions
+      - /Users/xiaojuezhi/www:/usr/share/nginx/html
   # php81_swoole:
   #   hostname: php81_swoole
   #   restart: always
@@ -78,19 +94,19 @@ services:
     container_name: redis
     privileged: true
     ports:
-      - 6379:6379
+      - 6380:6379
     networks:
       - default
       - network
-  # mongo:
-  #   image: mongo
-  #   restart: always
-  #   container_name: mongo
-  #   ports:
-  #     - 27017:27017
-  #   networks:
-  #     - default
-  #     - network
+  mongo:
+    image: mongo
+    restart: always
+    container_name: mongo
+    ports:
+      - 27017:27017
+    networks:
+      - default
+      - network
   rabbitmq:
     image: rabbitmq:3-management
     restart: always

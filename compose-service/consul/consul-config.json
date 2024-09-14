@@ -1,7 +1,7 @@
 {
     "datacenter": "dc1",
-    "data_dir": "/opt/consul/data/",
-    "log_file": "/opt/consul/log/",
+    "data_dir": "/consul/data/",
+    "log_file": "/consul/log/",
     "log_level": "INFO",
     "server": true,
     "bootstrap_expect": 1,

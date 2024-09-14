@@ -51,7 +51,7 @@ services:
   kafka-manager:
     image: sheepkiller/kafka-manager
     ports:
-      - "9000:9000"
+      - "19092:9000"
     environment:
       ZK_HOSTS: zookeeper:2181
 

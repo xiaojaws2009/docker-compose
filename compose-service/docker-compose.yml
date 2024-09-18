@@ -50,8 +50,14 @@ services:
       - network
   kafka-manager:
     image: sheepkiller/kafka-manager
+    hostname: kafka-manager
+    restart: always
+    container_name: kafka-manager
     ports:
       - "19092:9000"
+    depends_on:
+      - zookeeper
+      - kafka
     environment:
       ZK_HOSTS: zookeeper:2181
 

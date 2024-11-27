@@ -16,12 +16,10 @@ EXPOSE 8301 8301/udp 8302 8302/udp
 # use to interact with Consul.
 EXPOSE 8500 8600 8600/udp
 
+# 复制配置文件
 RUN mkdir -p /consul/config && \
     chown -R consul:consul /consul
-
-# 复制配置文件
-COPY ./consul-config.json /consul/config/consul-config.json
-COPY ./consul-kv.json /consul/data/consul-kv.json
+COPY ./config/consul-config.json /consul/config/consul-config.json
 
 # 启动Consul agent,（参数"config-dir=/consul/config"无效？）
 CMD ["agent", "-dev", "-client", "0.0.0.0"]

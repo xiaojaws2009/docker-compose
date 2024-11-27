@@ -5,9 +5,10 @@ services:
     hostname: consul
     restart: always
     container_name: consul
-    build:
-      context: ./consul
-      dockerfile: Dockerfile
+    image: hashicorp/consul:1.16
+    # build:
+    #   context: ./consul
+    #   dockerfile: Dockerfile
     environment:
       DISABLE_DEFAULT_SERVER: 1
     privileged: true
@@ -16,9 +17,13 @@ services:
       - "8400"
       - "8500:8500"
       - "8520:8520"
+    networks:
+      - default
+      - service_network
     volumes:
       - ./consul/data:/consul/data
-      - ./consul/log:/opt/consul/log
+      - ./consul/log:/consul/log
+    #command: kv import -http-addr=127.0.0.1:8500 @consul/data/consul-kv.json
 
   zookeeper:
     image: wurstmeister/zookeeper
@@ -27,9 +32,6 @@ services:
     container_name: zookeeper
     ports:
       - "2181:2181"
-    networks:
-      - default
-      - network
   kafka:
     image: wurstmeister/kafka
     hostname: kafka
@@ -47,7 +49,7 @@ services:
       - zookeeper
     networks:
       - default
-      - network
+      - service_network
   kafka-manager:
     image: sheepkiller/kafka-manager
     hostname: kafka-manager
@@ -62,6 +64,8 @@ services:
       ZK_HOSTS: zookeeper:2181
 
 networks:
-  network:
+  service_network:
     driver: bridge
+    name: service-network
+    external: true
     

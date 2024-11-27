@@ -29,6 +29,9 @@ services:
     links:
       - mysql
       - redis
+    networks:
+      - default
+      - service_network
     volumes:
       - ./php71/php.ini:/usr/local/etc/php/php.ini:ro # 当前php配置文件；可以拷贝修改php-dev.ini为想要的配置
       - ./php71/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro
@@ -45,6 +48,9 @@ services:
     links:
       - mysql
       - redis
+    networks:
+      - default
+      - service_network
     volumes:
       - ./php74/php.ini:/usr/local/etc/php/php.ini:ro
       - ./php74/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro
@@ -83,7 +89,7 @@ services:
       MYSQL_ROOT_PASSWORD: 123456  #mysql镜像中的环境变量
     networks:
       - default
-      - network
+      - service_network
     volumes:
       - ./mysql/data:/var/lib/mysql:rw
       - ./mysql/logs:/var/lib/mysql-logs:rw
@@ -97,7 +103,7 @@ services:
       - 6380:6379
     networks:
       - default
-      - network
+      - service_network
   mongo:
     image: mongo
     restart: always
@@ -106,7 +112,7 @@ services:
       - 27017:27017
     networks:
       - default
-      - network
+      - service_network
   rabbitmq:
     image: rabbitmq:3-management
     restart: always
@@ -120,12 +126,14 @@ services:
       - 5672:5672
     networks:
       - default
-      - network
+      - service_network
     volumes:
       - "./rabbitmq/data:/var/lib/rabbitmq"  # 持久化RabbitMQ数据
       - "./rabbitmq/log:/var/log/rabbitmq/log"
 
 # 构建网络
 networks:
-  network:
+  service_network:
     driver: bridge
+    name: service-network
+    external: true

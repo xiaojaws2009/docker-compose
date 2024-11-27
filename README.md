@@ -1,11 +1,16 @@
 # docker-compose项目环境安装
 
 ##
-compose-lnmp：安装lnmp环境（openresty+php71+php81_swoole+redis7+mongo+rabbitmq）\
+compose-lnmp：安装lnmp环境（openresty+php71+php74+php81_swoole+redis7+mongo+rabbitmq）\
 compose-go：golang框架demo(版本1.18) \
 compose-centos：centos7.6系统 \
 compose-service：服务注册发现+kafka消息队列
 compose-swoole：swoole框架demo
+
+##
+docker-compose间网络互通问题
+    先创建全局网络：docker network create service-network
+    在支持docker-compose up -d时会加入到该网络
 
 ```
 ### 推送远程镜像仓库

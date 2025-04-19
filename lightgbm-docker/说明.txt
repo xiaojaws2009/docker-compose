@@ -1,0 +1,5 @@
+执行：
+docker build \
+    -t lightgbm-cli \
+    -f dockerfile-cli \
+    .

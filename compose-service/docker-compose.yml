@@ -32,19 +32,26 @@ services:
     container_name: zookeeper
     ports:
       - "2181:2181"
+    #extra_hosts:
+    #  - "kafka-server.dev:127.0.0.1"
   kafka:
     image: wurstmeister/kafka
-    hostname: kafka
+    #hostname: kafka
     restart: always
     container_name: kafka
     ports:
       - "9092:9092"
+    extra_hosts:
+      - "kafka-server.dev:192.168.201.138"
     environment:
-      - KAFKA_ADVERTISED_HOST_NAME=kafka
+      - KAFKA_BROKER_ID=0
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      #- KAFKA_ADVERTISED_HOST_NAME=kafka-server.dev
+      #- KAFKA_ADVERTISED_PORT=9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka-server.dev:9092
       - KAFKA_LISTENERS=PLAINTEXT://:9092
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
-      - KAFKA_CREATE_TOPICS=test:1:1
+      - KAFKA_AUTO_CREATE_TOPICS_ENABLE=true
+      #- KAFKA_CREATE_TOPICS=test:1:1
     depends_on:
       - zookeeper
     networks:
